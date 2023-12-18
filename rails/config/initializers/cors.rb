@@ -9,7 +9,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins Rails.application.credentials[:front_domain]
+    origins Rails.application.credentials[:front_domain] || 'localhost:3000'
 
     resource '*',
              headers: :any,
