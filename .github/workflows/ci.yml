@@ -71,7 +71,6 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     defaults:
-      run:
         working-directory: next/app
     steps:
       - name: Checkout
@@ -79,6 +78,6 @@ jobs:
       - name: Install packages
         run: |
           npm install
-      - Run eslint
+      - name: Run eslint
         run: |
           npm run lint
