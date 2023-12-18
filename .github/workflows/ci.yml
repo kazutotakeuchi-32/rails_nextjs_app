@@ -9,7 +9,6 @@ jobs:
   rspec:
     runs-on: ubuntu-latest
     env:
-      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       RAILS_TEST_KEY: ${{ secrets.RAILS_TEST_KEY }}
       RAILS_ENVIRONMENT_KEY: ${{ secrets.RAILS_ENVIRONMENT_KEY }}
     defaults:
@@ -43,10 +42,5 @@ jobs:
           bundle install --jobs 4 --retry 3 --path vendor/bundle
       - name: debug
         run: |
-          echo $RAILS_MASTER_KEY
-          ls -la config
-          echo $RAILS_MASTER_KEY > config/master.key
-          echo $RAILS_TEST_KEY  > config/credentials/test.key
-          echo $RAILS_ENVIRONMENT_KEY > config/credentials/environment.key
           RAILS_ENV=test bundle exec rails db:create 
 
