@@ -1,20 +1,18 @@
-name: Run RSpec Tests
+name: CI
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
 jobs:
   rspec:
     runs-on: ubuntu-latest
+    env:
+      RAILS_ENV: test
     defaults:
       run:
         working-directory: rails
-    env:
-      RAILS_ENV: test
-
     services:
       mysql:
         image: mysql:8.0
@@ -23,34 +21,29 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Setup Ruby
+      - name: Set up Ruby 3.1.2
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.2
-
-      - name: Cache dependencies
-        uses: actions/cache@v2
+      - name: Cache node modules
+        uses: actions/cache@v3
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-gems-
-
-      - name: Install dependencies
+            ${{ runner.os }}-node-
+      - name: Bundle and gem install
         run: |
           gem install bundler
-          bundle install --jobs 4 --retry 3
-      
-      - name: Set up Database
+          bundle install --jobs 4 --retry 3 --path vendor/bundle
+      - name: initialize database
         run: |
           cp config/database_ci.yml config/database.yml
-          bundle exec rails db:create
-          bundle exec rails db:migrate
-
-      - name: Run RSpec
-        run: bundle exec rspec
+          bundle exec rails db:create RAILS_ENV=test
+          bundle exec rails db:migrate RAILS_ENV=test
+      - name: Run rspec
+        run: |
+          bundle exec rspec
