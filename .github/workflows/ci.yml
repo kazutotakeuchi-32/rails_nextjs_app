@@ -5,7 +5,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+env:
+  RAILS_ENV: test
+  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 jobs:
   rspec:
     runs-on: ubuntu-latest
@@ -43,6 +45,7 @@ jobs:
         run: |
           cp config/database_ci.yml config/database.yml
           bundle exec rails db:create ENV=test
+          bundle exec rails db:migrate ENV=test
         
       - name: Run rspec
         run: |
