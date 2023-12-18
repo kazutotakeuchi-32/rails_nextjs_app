@@ -45,10 +45,10 @@ jobs:
       - name: debug
         run: |
           ls -la config
-          cat "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
-          cat "${{ secrets.RAILS_TEST_KEY }}" > config/credentials/test.key
-          cat "${{ secrets.RAILS_ENVIRONMENT_KEY }}" > config/credentials/environment.key
-          cat "${{ secrets.RAILS_DEVELOPMENT_KEY }}" > config/credentials/development.key
+          echo  "${{ secrets.RAILS_MASTER_KEY }}" > config/master.key
+          echo  "${{ secrets.RAILS_TEST_KEY }}" > config/credentials/test.key
+          echo  "${{ secrets.RAILS_ENVIRONMENT_KEY }}" > config/credentials/environment.key
+          echo  "${{ secrets.RAILS_DEVELOPMENT_KEY }}" > config/credentials/development.key
 
           cat config/master.key
           cat config/credentials/test.key
