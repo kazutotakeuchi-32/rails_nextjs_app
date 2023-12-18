@@ -1,8 +1,16 @@
-class Api::V1::Current::UserController < Api::V1::BaseController
-  before_action :authenticate_user!, only: [:me]
+# frozen_string_literal: true
 
-  def me
-    render json: current_user, serializer: CurrentUserSerializer, status: 200
+module Api
+  module V1
+    module Current
+      class UserController < Api::V1::BaseController
+        before_action :authenticate_user!, only: [:me]
+
+        def me
+          render json: current_user, serializer: CurrentUserSerializer, status: 200
+        end
+      end
+    end
   end
 end
 

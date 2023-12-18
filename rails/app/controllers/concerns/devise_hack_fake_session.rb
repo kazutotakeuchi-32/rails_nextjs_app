@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DeviseHackFakeSession
   extend ActiveSupport::Concern
   class FakeSession < Hash

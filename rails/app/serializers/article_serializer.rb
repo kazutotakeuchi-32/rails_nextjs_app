@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticleSerializer < ActiveModel::Serializer
   attributes :id, :title, :body, :status, :created_at, :from_today
   belongs_to :user, serializer: UserSerializer
@@ -13,8 +15,8 @@ class ArticleSerializer < ActiveModel::Serializer
     months = (now.year - created_at.year) * 12 + now.month - created_at.month - (now.day >= created_at.day ? 0 : 1)
     year = months.div(12)
 
-    return "#{year}年前" if year > 0
-    return "#{months}ヶ月前" if months > 0
+    return "#{year}年前" if year.positive?
+    return "#{months}ヶ月前" if months.positive?
 
     seconds = (Time.zone.now - object.created_at).round
 
