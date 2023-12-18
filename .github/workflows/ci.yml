@@ -40,10 +40,11 @@ jobs:
           gem install bundler
           bundle install --jobs 4 --retry 3 --path vendor/bundle
       - name: debug
-        run: echo $RAILS_MASTER_KEY && echo secrets.RAILS_MASTER_KEY
       - name: initialize database
         run: |
           cp config/database_ci.yml config/database.yml
+          echo $RAILS_MASTER_KEY > config/master.key
+          echo $RAILS_MASTER_KEY > config/credentials/test.key
           bundle exec rails db:create ENV=test
           bundle exec rails db:migrate ENV=test
         
