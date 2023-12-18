@@ -45,14 +45,5 @@ jobs:
       - name: debug
         run: |
           ls -la config
-          echo 9387e6f1137e159486c7cb0cde52c10c > config/master.key
-          echo 80ef859612666cd47c1fc11c1fcd0cfd > config/credentials/test.key
-          echo 99b9a7ed52c98b3aa6467fddc93a4fde > config/credentials/environment.key
-          echo da50fd4fa0625cb8dce58d4817faa63e > config/credentials/development.key
-
-          cat config/master.key
-          cat config/credentials/test.key
-          cat config/credentials/environment.key
-          cat config/credentials/development.key
-          RAILS_ENV=test bundle exec rails db:create 
+          bundle exec rails db:create 
 
