@@ -8,8 +8,10 @@ on:
 
 jobs:
   rspec:
-    working-directory: rails
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rails
     env:
       RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
