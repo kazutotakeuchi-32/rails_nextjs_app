@@ -49,5 +49,11 @@ jobs:
           echo $RAILS_TEST_KEY  > config/credentials/test.key
           echo $RAILS_ENVIRONMENT_KEY > config/credentials/environment.key
           echo $RAILS_DEVELOPMENT_KEY > config/credentials/development.key
+
+          cat config/master.key
+          cat config/credentials/test.key
+          cat config/credentials/environment.key
+          cat config/credentials/development.key
+
           bundle exec rails db:create 
 
