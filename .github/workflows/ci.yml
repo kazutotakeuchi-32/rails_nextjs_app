@@ -1,21 +1,19 @@
-name: CI
+name: Run RSpec Tests
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
 jobs:
   rspec:
     runs-on: ubuntu-latest
     env:
+      RAILS_ENV: test
       RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      RAILS_DEVELOPMENT_KEY: ${{ secrets.RAILS_DEVELOPMENT_KEY }}
-      RAILS_TEST_KEY: ${{ secrets.RAILS_TEST_KEY }}
-      RAILS_ENVIRONMENT_KEY: ${{ secrets.RAILS_ENVIRONMENT_KEY }}
-    defaults:
-      run:
-        working-directory: rails
+      # もし他のキーが必要ならば追加
+
     services:
       mysql:
         image: mysql:8.0
@@ -24,26 +22,33 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Set up Ruby 3.1.2
+
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.2
-      - name: Cache node modules
-        uses: actions/cache@v3
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Bundle and gem install
+            ${{ runner.os }}-gems-
+
+      - name: Install dependencies
         run: |
           gem install bundler
-          bundle install --jobs 4 --retry 3 --path vendor/bundle
-      - name: debug
-        run: |
-          ls -la config
-          bundle exec rails db:create 
+          bundle install --jobs 4 --retry 3
 
+      - name: Set up Credentials
+        run: |
+          echo $RAILS_MASTER_KEY > config/master.key
+          # もし他のキーが必要ならば、それらも設定する
+
+      - name: Run RSpec
+        run: bundle exec rspec
