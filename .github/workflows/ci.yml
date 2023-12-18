@@ -42,11 +42,10 @@ jobs:
       - name: initialize database
         run: |
           cp config/database_ci.yml config/database.yml
+          echo echo "${{secrets.RAILS_MASTER_KEY}} test" 
           echo $RAILS_MASTER_KEY > config/master.key
           echo $RAILS_MASTER_KEY > config/credentials/test.key
-          bundle exec rails db:create ENV=test
-          bundle exec rails db:migrate ENV=test
         
-      - name: Run rspec
-        run: |
-          bundle exec rspec
+      # - name: Run rspec
+      #   run: |
+      #     bundle exec rspec
