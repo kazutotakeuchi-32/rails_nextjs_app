@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 env:
-  RAILS_ENV: test
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
 jobs:
   rspec:
@@ -40,7 +39,8 @@ jobs:
         run: |
           gem install bundler
           bundle install --jobs 4 --retry 3 --path vendor/bundle
-      
+      - name: debug
+        run: echo $RAILS_MASTER_KEY
       - name: initialize database
         run: |
           cp config/database_ci.yml config/database.yml
