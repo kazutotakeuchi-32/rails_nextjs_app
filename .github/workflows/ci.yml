@@ -43,6 +43,10 @@ jobs:
         run: |
           echo $RAILS_MASTER_KEY
           ls -la config
-          EDITOR="vi" bin/rails credentials:edit -e test
-
+          echo $RAILS_MASTER_KEY > config/master.key
+          echo $RAILS_MASTER_KEY > config/credentials/test.key
+          echo $RAILS_MASTER_KEY > config/credentials/development.key
+          echo $RAILS_MASTER_KEY > config/credentials/production.key
+          echo $RAILS_MASTER_KEY > config/credentials/environment.key
+          EDITOR="vi" bin/rails credentials:edit -e
 
