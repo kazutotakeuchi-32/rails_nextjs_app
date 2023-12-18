@@ -48,6 +48,11 @@ jobs:
         run: |
           cp config/database_ci.yml config/database.yml
           echo $RAILS_MASTER_KEY > config/master.key
+          echo $RAILS_MASTER_KEY > config/credentials/test.key
+          echo $RAILS_MASTER_KEY > config/credentials/development.key
+          echo $RAILS_MASTER_KEY > config/credentials/production.key
+          echo $RAILS_MASTER_KEY > config/credentials/environment.key
+
           bundle exec rails db:create RAILS_ENV=test
           bundle exec rails db:migrate RAILS_ENV=test
         
