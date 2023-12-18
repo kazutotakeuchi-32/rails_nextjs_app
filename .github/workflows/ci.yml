@@ -8,6 +8,7 @@ on:
 
 jobs:
   rspec:
+    working-directory: rails
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
@@ -49,6 +50,12 @@ jobs:
         run: |
           echo $RAILS_MASTER_KEY > config/master.key
           # もし他のキーが必要ならば、それらも設定する
+      
+      -name: Set up Database
+        run: |
+          cp config/database_ci.yml config/database.yml
+          bundle exec rails db:create
+          bundle exec rails db:migrate
 
       - name: Run RSpec
         run: bundle exec rspec
