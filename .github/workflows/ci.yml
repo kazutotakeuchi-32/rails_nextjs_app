@@ -51,7 +51,7 @@ jobs:
           echo $RAILS_MASTER_KEY > config/master.key
           # もし他のキーが必要ならば、それらも設定する
       
-      -name: Set up Database
+      - name: Set up Database
         run: |
           cp config/database_ci.yml config/database.yml
           bundle exec rails db:create
