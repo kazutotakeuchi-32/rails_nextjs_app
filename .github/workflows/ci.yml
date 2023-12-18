@@ -44,10 +44,10 @@ jobs:
           bundle install --jobs 4 --retry 3 --path vendor/bundle
       - name: debug
         run: |
-          echo secret "${ secrets.RAILS_MASTER_KEY }"
-          echo secret "${ secrets.RAILS_DEVELOPMENT_KEY }"
-          echo secret "${ secrets.RAILS_TEST_KEY }"
-          echo secret "${ secrets.RAILS_ENVIRONMENT_KEY }"
+          echo "${ secrets.RAILS_MASTER_KEY }"
+          echo "${ secrets.RAILS_DEVELOPMENT_KEY }"
+          echo "${ secrets.RAILS_TEST_KEY }"
+          echo "${ secrets.RAILS_ENVIRONMENT_KEY }"
 
           ls -la config
           echo $RAILS_MASTER_KEY > config/master.key
