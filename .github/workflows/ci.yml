@@ -44,7 +44,7 @@ jobs:
           cp config/database_ci.yml config/database.yml
           echo $RAILS_MASTER_KEY > config/master.key
           cat config/master.key
-        
+          
       # - name: Run rspec
       #   run: |
       #     bundle exec rspec
