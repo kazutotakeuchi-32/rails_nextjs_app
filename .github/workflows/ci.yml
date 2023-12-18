@@ -55,5 +55,5 @@ jobs:
           cat config/credentials/environment.key
           cat config/credentials/development.key
 
-          bundle exec rails db:create 
+          RAILS_ENV=test bundle exec rails db:create 
 
