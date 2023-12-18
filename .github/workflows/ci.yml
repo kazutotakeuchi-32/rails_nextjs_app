@@ -48,5 +48,5 @@ jobs:
           echo $RAILS_MASTER_KEY > config/master.key
           echo $RAILS_TEST_KEY  > config/credentials/test.key
           echo $RAILS_ENVIRONMENT_KEY > config/credentials/environment.key
-          EDITOR="vi" bin/rails credentials:edit -e
+          RAILS_ENV=test bundle exec rails db:create 
 
