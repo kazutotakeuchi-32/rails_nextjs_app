@@ -1,0 +1,5 @@
+next/node_modules/*
+next/app/.next/*
+next/app/node_modules/*
+
+mysql_data/*

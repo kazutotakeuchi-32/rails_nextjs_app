@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: rails
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Ruby 3.1.2
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.1.2
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - name: Bundle and gem install
+        run: |
+          gem install bundler
+          bundle install --jobs4 --retry3 --path vendor/bundle
+      
+      - name: initialize database
+        run: |
+          cp config/database.yml.ci config/database.yml
+          bundle exec rails db:create ENV=test
+          bundle exec rails db:migrate ENV=test
+      - name: Run rspec
+        run: |
+          bundle exec rspec

@@ -1,0 +1,12 @@
+ja:
+  activerecord:
+    attributes:
+      article:
+        title: タイトル
+        body: 本文
+  enums:
+    article:
+      status:
+        unsaved: 未保存
+        saved: 保存済み
+        published: 公開中

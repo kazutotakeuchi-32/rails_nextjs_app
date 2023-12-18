@@ -1,0 +1,40 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0.32
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: myapp_development
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+  api:
+    build: ./rails
+    command: bash -c "bundle install && bundle exec rails s -b '0.0.0.0'"
+    # command: bash -c "tail -f log/development.log"
+    volumes:
+      - ./rails:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    tty: true
+    stdin_open: true
+  front:
+    working_dir: /app/app
+    build:
+      context: ./next
+      dockerfile: Dockerfile
+    command: bash -c "yarn dev"
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./next:/app
+    ports:
+      - "8000:3000"
+
+volumes:
+  mysql_data:
