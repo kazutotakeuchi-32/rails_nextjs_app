@@ -7,12 +7,12 @@ module Api
         before_action :authenticate_user!
 
         def index
-          articles = current_user.articles
-                                 .not_status_unsaved
-                                 .includes(:user)
-                                 .order(created_at: :desc)
-                                 .page(params[:page] || 1)
-                                 .per(Article::PAGE_PER)
+          articles = current_user.articles.
+                       not_status_unsaved.
+                       includes(:user).
+                       order(created_at: :desc).
+                       page(params[:page] || 1).
+                       per(Article::PAGE_PER)
 
           render json: articles, meta: paginate(articles), adapter: :json
         end
@@ -23,7 +23,7 @@ module Api
         end
 
         def create
-          unsaved_article = current_user.articles.status_unsaved.first || current_user.articles.create(status: :unsaved)
+          unsaved_article = current_user.articles.status_unsaved.first || current_user.articles.create!(status: :unsaved)
           render json: unsaved_article, status: :created
         end
 
@@ -35,9 +35,9 @@ module Api
 
         private
 
-        def article_params
-          params.require(:article).permit(:title, :body, :status)
-        end
+          def article_params
+            params.require(:article).permit(:title, :body, :status)
+          end
       end
     end
   end

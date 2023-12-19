@@ -5,7 +5,7 @@ class CurrentArticleSerializer < ActiveModel::Serializer
   belongs_to :user, serializer: CurrentUserSerializer
 
   def created_at
-    object.created_at.strftime('%Y/%m/%d')
+    object.created_at.strftime("%Y/%m/%d")
   end
 
   def status

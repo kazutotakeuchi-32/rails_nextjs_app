@@ -10,8 +10,8 @@ module Api
         raise StandardError if user.confirmed?
 
         user.confirm!
-        render json: { message: '認証完了しました。', status: 200 }
-      rescue StandardError => e
+        render json: { message: "認証完了しました。", status: 200 }
+      rescue => e
         render json: { errors: e.message }, status: :unprocessable_entity
       end
     end

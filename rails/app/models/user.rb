@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   end
 
   def confirm!
-    self.confirmed_at = Time.now
+    self.confirmed_at = Time.zone.now
     self.confirmation_token = nil
-    save
+    save!
   end
 end

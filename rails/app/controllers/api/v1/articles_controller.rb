@@ -4,15 +4,15 @@ module Api
   module V1
     class ArticlesController < Api::V1::BaseController
       def index
-        articles = Article
-                   .published
-                   .includes(:user)
-                   .order(created_at: :desc)
-                   .page(params[:page] || 1)
-                   .per(Article::PAGE_PER)
+        articles = Article.
+                     published.
+                     includes(:user).
+                     order(created_at: :desc).
+                     page(params[:page] || 1).
+                     per(Article::PAGE_PER)
         render json: articles, meta: paginate(articles), adapter: :json
-      rescue StandardError => e
-        render json: { errors: e.message }, status: 500
+      rescue => e
+        render json: { errors: e.message }, status: :internal_server_error
       end
 
       def show

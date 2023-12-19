@@ -5,14 +5,14 @@ class ArticleSerializer < ActiveModel::Serializer
   belongs_to :user, serializer: UserSerializer
 
   def created_at
-    object.created_at.strftime('%Y/%m/%d日')
+    object.created_at.strftime("%Y/%m/%d日")
   end
 
   def from_today
     now = Time.zone.now
     created_at = object.created_at
 
-    months = (now.year - created_at.year) * 12 + now.month - created_at.month - (now.day >= created_at.day ? 0 : 1)
+    months = (now.year - created_at.year) * 12 + now.month - created_at.month - ((now.day >= created_at.day) ? 0 : 1)
     year = months.div(12)
 
     return "#{year}年前" if year.positive?

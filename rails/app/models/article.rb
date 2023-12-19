@@ -16,13 +16,13 @@ class Article < ApplicationRecord
 
   private
 
-  def is_published?
-    status_published?
-  end
+    def is_published?
+      status_published?
+    end
 
-  def verify_only_one_unsaved_status_is_allowed
-    return unless status_unsaved? && user.articles.status_unsaved.exists?
+    def verify_only_one_unsaved_status_is_allowed
+      return unless status_unsaved? && user.articles.status_unsaved.exists?
 
-    raise StandardError, '未保存の記事は一つまでです。'
-  end
+      raise StandardError, "未保存の記事は一つまでです。"
+    end
 end

@@ -7,7 +7,8 @@ module DeviseHackFakeSession
       false
     end
 
-    def destory; end
+    def destory
+    end
   end
 
   included do
@@ -16,7 +17,7 @@ module DeviseHackFakeSession
     def set_fake_session
       return unless Rails.configuration.respond_to?(:api_only) && Rails.configuration.api_only
 
-      request.env['rack.session'] = ::DeviseHackFakeSession::FakeSession.new
+      request.env["rack.session"] = ::DeviseHackFakeSession::FakeSession.new
     end
   end
 end
