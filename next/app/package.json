@@ -35,6 +35,7 @@
     "zenn-content-css": "^0.1.150"
   },
   "devDependencies": {
-    "@emotion/babel-plugin": "^11.11.0"
+    "@emotion/babel-plugin": "^11.11.0",
+    "eslint-plugin-prettier": "^5.0.1"
   }
 }
