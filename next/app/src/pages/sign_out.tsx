@@ -1,12 +1,10 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { set } from 'react-hook-form'
 import {
   useUserState,
   fallbackUserState,
   useSnackbarState,
-  fallbackSnackbarData,
 } from '@/hooks/useGlobalState'
 
 const SignOut: NextPage = () => {
