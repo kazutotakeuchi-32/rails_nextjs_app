@@ -21,6 +21,7 @@ class ArticleSerializer < ActiveModel::Serializer
     seconds = (Time.zone.now - object.created_at).round
 
     days = seconds.div(60 * 60 * 24)
+
     return "#{days}日前" if days.positive?
 
     hours = seconds.div(60 * 60)
