@@ -66,13 +66,6 @@ aws ecs execute-command --cluster  \
     --command "/bin/sh"
 ```
 
-aws ecs execute-command --cluster  zenn-test-cluster \
-    --profile zenn-test \
-    --region ap-northeast-1 \
-    --task 86690b11152a4d2782d8eaf1fef99fb2 \
-    --container nginx \
-    --interactive \
-    --command "/bin/bash"
 
 ## ECSのデプロイフロー
 1. コンテナデプロイ用のイメージをビルド
