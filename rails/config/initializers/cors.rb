@@ -10,7 +10,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # origins '*'
-    origins Settings.front_domain.split(',')
+    origins Settings.front_domain.split(",")
 
     resource "*",
              headers: :any,
