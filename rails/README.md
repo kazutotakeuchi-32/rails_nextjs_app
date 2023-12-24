@@ -54,11 +54,6 @@ aws ecs update-service \
     --enable-execute-command | grep enableExecuteCommand
 ```
 
-aws ecs update-service \
-    --profile zenn-test \
-    --cluster zen-test-cluster \
-    --service zenn-test-service3 \
-    --enable-execute-command | grep enableExecuteCommand
 
 3. コンテナの実行
 ``` bash
