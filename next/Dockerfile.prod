@@ -1,0 +1,41 @@
+# --- ビルドステージ ---
+FROM --platform=linux/x86_64 node:19.4.0 AS builder
+
+COPY . .
+
+# 作業ディレクトリ指定
+WORKDIR /app
+
+# パッケージインストール
+RUN npm ci 
+
+# 本番用ビルド
+RUN npm run build
+
+# --- 実行ステージ ---
+FROM --platform=linux/x86_64 node:19.4.0-alpine
+
+# 作業ディレクトリ指定
+WORKDIR /app
+
+# ビルドステージから必要なファイルを実行ステージにコピー
+COPY --from=builder /app/next.config.js ./next.config.js
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/.env.production ./.env.production
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/package-lock.json ./package-lock.json
+
+# 環境変数
+ENV NODE_ENV production
+
+# ポート開放
+EXPOSE 80
+
+# パッケージインストール
+RUN npm update
+RUN npm install
+
+# 起動コマンド(ポート80で起動)
+CMD npm run start

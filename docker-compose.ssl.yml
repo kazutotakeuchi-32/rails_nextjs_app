@@ -14,9 +14,9 @@ services:
   api:
     build: ./rails
     # 本番環境
-    # command: bundle exec pumactl start
+    command: bundle exec pumactl start
     # 開発環境
-    command: bash -c "bundle install && bundle exec rails s -b '0.0.0.0'"
+    # command: bash -c "bundle install && bundle exec rails s -b '0.0.0.0'"
     # command: bash -c "tail -f log/development.log"
     volumes:
       - ./rails:/app
@@ -41,9 +41,9 @@ services:
   web:
     build: 
       context: ./nginx
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.ssl
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
       - ./rails:/app
     depends_on:

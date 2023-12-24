@@ -16,3 +16,9 @@ test:
   host: db
   database: myapp_test
   password: password
+
+production:
+  <<: *default
+  database: <%= Rails.application.credentials.production.database_name %>
+  url: <%= Rails.application.credentials.production.database_url %>
+

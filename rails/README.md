@@ -1,24 +1,142 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## ECRにpushする手順
+1. 認証トークンを取得し、レジストリに対して Docker クライアントを認証
+``` bash
+aws ecr get-login-password --region ap-northeast-1 --proofile プロファイル名 | docker login --username AWS --password-stdin url
+```
 
-Things you may want to cover:
+2. ビルドしてイメージを作成
+``` bash
+docker build -t コンテナ名 -f ファイル名 ディレクトリ
+```
 
-* Ruby version
+3. タグを設定
+``` bash
+docker tag image_name:latest url/image_name:latest
+```
 
-* System dependencies
+4. push
+``` bash
+docker push url/image_name:latest
+```
 
-* Configuration
+## ECSコンテナ接続手順
 
-* Database creation
+1. ECSのタスクロールにIAMポリシーをアタッチ
+AWS側のコンソールのIAMで設定
 
-* Database initialization
+``` json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
 
-* How to run the test suite
+2. サービスに実行権限を付与
 
-* Services (job queues, cache servers, search engines, etc.)
+``` bash
+aws ecs update-service \
+    --profile プロファイル名 \
+    --cluster クラスタ名 \
+    --service サービス名 \
+    --enable-execute-command | grep enableExecuteCommand
+```
 
-* Deployment instructions
+aws ecs update-service \
+    --profile zenn-test \
+    --cluster zen-test-cluster \
+    --service zenn-test-service3 \
+    --enable-execute-command | grep enableExecuteCommand
 
-* ...
+3. コンテナの実行
+``` bash
+aws ecs execute-command --cluster  \
+    --profile プロファイル名 \
+    --region リージョン \
+    --task タスクID \
+    --container コンテナ名 \
+    --interactive \
+    --command "/bin/sh"
+```
+
+aws ecs execute-command --cluster  zenn-test-cluster \
+    --profile zenn-test \
+    --region ap-northeast-1 \
+    --task 86690b11152a4d2782d8eaf1fef99fb2 \
+    --container nginx \
+    --interactive \
+    --command "/bin/bash"
+
+
+## AWSCLI
+
+### クラスタの作成
+
+``` bash
+aws ecs --profile プロファイル名 create-cluster --cluster-name クラスタ名
+```
+
+### クラスタの削除
+
+``` bash
+aws ecs --profile プロファイル名  delete-cluster --cluster クラスタ名
+```
+
+
+### サービスの作成
+
+``` bash
+aws ecs --profile プロファイル名 create-service \
+    --cluster クラスタ名 \
+    --service-name サービス名 \
+    --enable-execute-command \
+    --task-definition タスクARN \
+    --desired-count 1 \
+    --network-configuration "awsvpcConfiguration={subnets=[サブネットID],securityGroups=[セキュリティグループ]}"
+```
+
+
+### サービスの削除
+
+``` bash
+# サービスのスケールダウン
+aws ecs update-service \
+    --cluster <クラスタ名> \
+    --service <サービス名> \
+    --desired-count 0
+
+# サービス削除
+aws ecs delete-service \
+    --cluster クラスタ名 \
+    --service サービス名
+```
+
+## コンテナ起動
+
+### 通常
+``` bash
+make up
+```
+
+### 本番
+``` bash
+make prod_up
+```
+
+### ssl化
+``` bash
+make ssl_up
+```
+
