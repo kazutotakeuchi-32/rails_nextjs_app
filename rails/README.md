@@ -74,6 +74,11 @@ aws ecs execute-command --cluster  zenn-test-cluster \
     --interactive \
     --command "/bin/bash"
 
+## ECSのデプロイフロー
+1. コンテナデプロイ用のイメージをビルド
+2. ECRにpush
+3. タスクを定義もしくは再定義
+4. サービスを更新もしくは作成
 
 ## AWSCLI
 
