@@ -54,7 +54,6 @@ aws ecs update-service \
     --enable-execute-command | grep enableExecuteCommand
 ```
 
-
 3. コンテナの実行
 ``` bash
 aws ecs execute-command --cluster  \
