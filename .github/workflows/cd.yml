@@ -13,7 +13,7 @@ env:
   ECS_SERVICE_BACKEND: zenn-test-backend-service
   ECS_SERVICE_FRONTEND: zenn-test-frontend-service8
   ECS_TASK_DEFINITION_BACKEND: ./rails/task-definition.json
-  ECS_TASK_DEFINITION_FRONTEND: ./rails/task-definition.json
+  ECS_TASK_DEFINITION_FRONTEND: ./next/task-definition.json
   ECR_REPOSITORY_RAILS: zenn-test-rails
   ECR_REPOSITORY_NGINX: zenn-test-nginx
   ECR_REPOSITORY_NEXT: zenn-test-next
