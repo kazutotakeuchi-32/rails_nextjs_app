@@ -1,10 +1,12 @@
 name: CI
 
-on:
+on: 
   push:
-    branches: [ main ]
+    branches-ignore:       
+      - main
   pull_request:
-    branches: [ main ]
+  workflow_call:
+
 jobs:
   rspec:
     runs-on: ubuntu-latest
