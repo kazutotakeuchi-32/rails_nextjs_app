@@ -33,9 +33,5 @@ ENV NODE_ENV production
 # ポート開放
 EXPOSE 80
 
-# パッケージインストール
-RUN npm update
-RUN npm install
-
 # 起動コマンド(ポート80で起動)
 CMD npm run start
