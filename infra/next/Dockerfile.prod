@@ -1,7 +1,7 @@
 # --- ビルドステージ ---
 FROM --platform=linux/x86_64 node:19.4.0 AS builder
 
-COPY . .
+COPY ../next/ .
 
 # 作業ディレクトリ指定
 WORKDIR /app
