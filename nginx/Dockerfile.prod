@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y curl vim sudo lsof net-tools
 RUN rm /etc/nginx/conf.d/*
 
 # nginxの設定ファイルをコピー
-ADD nginx.conf /etc/nginx/app.conf
+ADD ./infra/nginx/nginx.conf /etc/nginx/app.conf
 
 # ビルド完了後に実行するコマンド
 CMD /usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/app.conf

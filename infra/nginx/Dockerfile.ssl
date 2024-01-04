@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y curl vim sudo openssl lsof net-tools ap
 RUN rm /etc/nginx/conf.d/*
 
 # nginxの設定ファイルをコピー
-ADD nginx_ssl.conf /etc/nginx/app.conf
+ADD ./infra/nginx/nginx_ssl.conf /etc/nginx/app.conf
 
 # ssl設定
 RUN mkdir /etc/nginx/ssl
