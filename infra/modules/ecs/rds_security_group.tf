@@ -1,4 +1,14 @@
-# RDSのセキュリティグループを作成する
+/* 
+  RDSのセキュリティグループを作成する
+  インバウンドルール
+  -------------------------------
+  3306: MYSQL/Aurora ecs_backend
+  -------------------------------
+  アウトバウンドルール
+  ------------------------------
+  80: HTTP ipV4 0.0.0.0./0
+  ------------------------------
+ */
 resource "aws_security_group" "rds" {
   name        = "${var.db_name}-sg"
   description = "security group for ${var.db_name}"

@@ -44,6 +44,7 @@ resource "aws_iam_policy_attachment" "s3_full_access" {
 
 # ECSタスク実行ロールにSession Managerの権限をアタッチする
 
+# Session Manager用のIAMポリシーを作成する
 data "aws_iam_policy_document" "session_manager_policy" {
   statement {
     actions = [
@@ -56,12 +57,19 @@ data "aws_iam_policy_document" "session_manager_policy" {
   }
 }
 
+/* 
+  Session Manager用のIAMポリシーを作成する
+  上記で作成したポリシーをアタッチする
+ */
 resource "aws_iam_policy" "session_manager_policy" {
   name        = "${var.project_name}-session-manager-policy"
   description = "Session Manager Policy"
   policy      = data.aws_iam_policy_document.session_manager_policy.json
 }
 
+/* 
+  ECSタスク実行ロールにSession Managerのポリシーをアタッチする
+ */
 resource "aws_iam_role_policy_attachment" "session_manager_policy" {
   role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = aws_iam_policy.session_manager_policy.arn

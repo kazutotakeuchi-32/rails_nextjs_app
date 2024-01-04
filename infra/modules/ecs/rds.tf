@@ -1,3 +1,4 @@
+# RDSを作成
 resource "aws_db_instance" "rds" {
   # 割り当てるストレージのサイズ(GB)
   allocated_storage = 20
@@ -29,6 +30,7 @@ resource "aws_db_instance" "rds" {
 
 }
 
+# RDSのサブネットグループを作成する
 resource "aws_db_subnet_group" "db_subnet_group" {
   name        = var.db_subnet_group_name
   description = "db subnet group for ${var.db_name}"

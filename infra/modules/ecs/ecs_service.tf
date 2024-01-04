@@ -1,6 +1,13 @@
 # ECSサービスの作成
 
-# バックエンド用のECSサービスを作成する
+/* 
+  バックエンド用のサービスを作成
+  サブネット: パブリックサブネット
+  セキュリティグループ: ecs_backend
+  ロードバランサー: backend
+  ターゲットグループ: ecs_backend
+  タスク定義: backend
+ */
 
 resource "aws_ecs_service" "backend" {
   depends_on = [aws_lb.backend, aws_lb_target_group.backend, null_resource.docker_push]
@@ -38,7 +45,14 @@ resource "aws_ecs_service" "backend" {
 
 }
 
-# フロントエンド用のECSサービスを作成する
+/* 
+  フロントエンド用のサービスを作成
+  サブネット: パブリックサブネット
+  セキュリティグループ: ecs_frontend
+  ロードバランサー: frontend
+  ターゲットグループ: ecs_frontend
+  タスク定義: frontend
+ */
 
 resource "aws_ecs_service" "frontend" {
     depends_on = [aws_lb.frontend, aws_lb_target_group.frontend, null_resource.docker_push]

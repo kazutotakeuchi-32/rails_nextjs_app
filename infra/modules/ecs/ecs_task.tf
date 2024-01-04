@@ -1,8 +1,8 @@
 # ECS 
 /* 
   バックエンド用のタスク定義を作成する
-  - nginxコンテナ
-  - railsコンテナ
+  - nginxコンテナ 80:80
+  - railsコンテナ 3000:3000
  */
 resource "aws_ecs_task_definition" "backend" {
   family       = var.backend_task_definition
@@ -60,7 +60,7 @@ resource "aws_ecs_task_definition" "backend" {
 
 /* 
   フロントエンド用のタスク定義を作成する
-  - nextコンテナ
+  - nextコンテナ 80:80
  */
 
 resource "aws_ecs_task_definition" "frontend" {
