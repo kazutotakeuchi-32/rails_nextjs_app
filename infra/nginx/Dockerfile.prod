@@ -1,0 +1,17 @@
+FROM --platform=linux/x86_64 nginx:latest
+
+# へルスチェック用
+RUN apt-get update && apt-get install -y curl vim sudo lsof net-tools
+
+# nginxのインクルードを削除
+RUN rm /etc/nginx/conf.d/*
+
+# nginxの設定ファイルをコピー
+ADD nginx.conf /etc/nginx/app.conf
+
+# ビルド完了後に実行するコマンド
+CMD /usr/sbin/nginx -g 'daemon off;' -c /etc/nginx/app.conf
+
+# ポート開放
+EXPOSE 80
+
